@@ -1,0 +1,71 @@
+version: '3'
+services:
+  mariadb:
+    build:
+      context: ./requirements/mariadb
+      dockerfile: Dockerfile
+    image: mariadb
+    container_name: mariadb
+    restart: always
+    expose:
+      - "3306"
+    volumes:
+      - /Users/donghakl/data/db:/var/lib/mysql
+    env_file:
+      - .env
+    networks:
+      - intra
+
+  wordpress:
+    build:
+      context: ./requirements/wordpress
+      dockerfile: Dockerfile
+    container_name: wordpress
+    image: wordpress
+    restart: always
+    env_file:
+      - .env
+    depends_on:
+      - mariadb
+    expose:
+      - "9000"
+    volumes:
+      - /Users/donghakl/data/wordpress:/var/www
+    networks:
+      - intra
+
+  nginx:
+    build:
+      context: ./requirements/nginx
+      dockerfile: Dockerfile
+    container_name: nginx
+    image: nginx
+    restart: always
+    ports:
+      - 443:443
+    volumes:
+      - /Users/donghakl/data/wordpress:/var/www
+    depends_on:
+      - wordpress
+    networks:
+      - intra
+
+networks:
+    intra:
+        driver: bridge
+
+# volumes:
+#   db-v:
+#     name: db-v
+#     driver: local
+#     driver_opts:
+#       type: none  
+#       # o: bind
+#       device: '/Users/donghakl/data/db'
+#   www-v:
+#     name: www-v
+#     driver: local
+#     driver_opts:
+#       type: bind
+#       # o: bind
+#       device: '/Users/donghakl/data/wordpress'
