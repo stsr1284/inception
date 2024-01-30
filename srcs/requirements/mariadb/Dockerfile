@@ -10,4 +10,6 @@ COPY    ./conf/my.cnf /etc/mysql/
 COPY    ./tools/entry.sh /
 RUN     chmod +x /entry.sh
 
+VOLUME /var/lib/mysql
+
 ENTRYPOINT [ "sh", "/entry.sh" ]

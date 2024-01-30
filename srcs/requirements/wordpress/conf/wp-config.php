@@ -1,16 +1,19 @@
 <?php
 // ** Database settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
-define( 'DB_NAME', getenv("DB_NAME") );
+// define( 'DB_NAME', getenv("WORDPRESS_DB_NAME") );
+define( 'DB_NAME', 'wordpress' );
 
 /** Database username */
-define( 'DB_USER', getenv("DB_USER") );
+// define( 'DB_USER', getenv("WORDPRESS_DB_USER") );
+define( 'DB_USER', 'dong' );
 
 /** Database password */
-define( 'DB_PASSWORD', getenv("DB_PASSWORD") );
+// define( 'DB_PASSWORD', getenv("WORDPRESS_DB_PASSWORD") );
+define( 'DB_PASSWORD', '!Saltey000408' );
 
 /** Database hostname */
-define( 'DB_HOST', getenv("DB_HOST") );
+define( 'DB_HOST', 'mariadb' );
 
 /** Database charset to use in creating database tables. */
 define( 'DB_CHARSET', 'utf8' );
@@ -27,7 +30,7 @@ define( 'SECURE_AUTH_SALT', 'put your unique phrase here' );
 define( 'LOGGED_IN_SALT',   'put your unique phrase here' );
 define( 'NONCE_SALT',       'put your unique phrase here' );
 
-$table_prefix = getenv("DB_PREFIX");
+$table_prefix = 'wp_';
 
 define( 'WP_DEBUG', true );
 

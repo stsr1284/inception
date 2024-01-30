@@ -10,9 +10,12 @@ services:
     expose:
       - "3306"
     volumes:
-      - /Users/donghakl/data/db:/var/lib/mysql
-    env_file:
-      - .env
+      - db-v:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     networks:
       - intra
 
@@ -23,14 +26,22 @@ services:
     container_name: wordpress
     image: wordpress
     restart: always
-    env_file:
-      - .env
+    environment:
+      - WORDPRESS_DB_HOST=${DB_HOST}
+      - WORDPRESS_DB_USER=${MYSQL_USER}
+      - WORDPRESS_DB_PASSWORD=${MYSQL_PASSWORD}
+      - WORDPRESS_DB_NAME=${MYSQL_DATABASE}
+      - WORDPRESS_TABLE_PREFIX=${WP_TABLE_PREFIX}
+      - ADMIN_USER=${MYSQL_USER}
+      - ADMIN_PASSWORD=${MYSQL_PASSWORD}
+      - USER_ID=${USER_ID}
+      - USER_PASSWORD=${USER_PWD}
     depends_on:
       - mariadb
     expose:
       - "9000"
     volumes:
-      - /Users/donghakl/data/wordpress:/var/www
+      - www-v:/var/www
     networks:
       - intra
 
@@ -44,28 +55,29 @@ services:
     ports:
       - 443:443
     volumes:
-      - /Users/donghakl/data/wordpress:/var/www
+      - www-v:/var/www
     depends_on:
       - wordpress
     networks:
       - intra
 
+volumes:
+    db-v:
+        name: db-v
+        driver: local
+        driver_opts:
+            device: '/Users/donghakl/data/db'
+            type: 'none'
+            o: 'bind'
+
+    www-v:
+        name: www-v
+        driver: local
+        driver_opts:
+            device: '/Users/donghakl/data/wordpress'
+            type: 'none'
+            o: 'bind'
+
 networks:
     intra:
         driver: bridge
-
-# volumes:
-#   db-v:
-#     name: db-v
-#     driver: local
-#     driver_opts:
-#       type: none  
-#       # o: bind
-#       device: '/Users/donghakl/data/db'
-#   www-v:
-#     name: www-v
-#     driver: local
-#     driver_opts:
-#       type: bind
-#       # o: bind
-#       device: '/Users/donghakl/data/wordpress'
