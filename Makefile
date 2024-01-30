@@ -1,4 +1,4 @@
-VOLUME_DIR	:=	/Users/donghakl/data
+VOLUME_DIR	:=	/Users/donghak/data
 DOCKER_COMPOSE	:=	docker-compose
 DOCKER_COMPOSE_FILE	:=	./srcs/docker-compose.yml
 PROJECT_NAME	:=	Inception

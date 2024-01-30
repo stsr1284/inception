@@ -11,11 +11,13 @@ services:
       - "3306"
     volumes:
       - db-v:/var/lib/mysql
-    environment:
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
-      - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    env_file:
+      - .env
+    # environment:
+    #   - MYSQL_DATABASE=${MYSQL_DATABASE}
+    #   - MYSQL_USER=${MYSQL_USER}
+    #   - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    #   - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     networks:
       - intra
 
@@ -26,16 +28,18 @@ services:
     container_name: wordpress
     image: wordpress
     restart: always
-    environment:
-      - WORDPRESS_DB_HOST=${DB_HOST}
-      - WORDPRESS_DB_USER=${MYSQL_USER}
-      - WORDPRESS_DB_PASSWORD=${MYSQL_PASSWORD}
-      - WORDPRESS_DB_NAME=${MYSQL_DATABASE}
-      - WORDPRESS_TABLE_PREFIX=${WP_TABLE_PREFIX}
-      - ADMIN_USER=${MYSQL_USER}
-      - ADMIN_PASSWORD=${MYSQL_PASSWORD}
-      - USER_ID=${USER_ID}
-      - USER_PASSWORD=${USER_PWD}
+    # environment:
+    #   - WORDPRESS_DB_HOST=${DB_HOST}
+    #   - WORDPRESS_DB_USER=${MYSQL_USER}
+    #   - WORDPRESS_DB_PASSWORD=${MYSQL_PASSWORD}
+    #   - WORDPRESS_DB_NAME=${MYSQL_DATABASE}
+    #   - WORDPRESS_TABLE_PREFIX=${WP_TABLE_PREFIX}
+    #   - ADMIN_USER=${MYSQL_USER}
+    #   - ADMIN_PASSWORD=${MYSQL_PASSWORD}
+    #   - USER_ID=${USER_ID}
+    #   - USER_PASSWORD=${USER_PWD}
+    env_file:
+      - .env
     depends_on:
       - mariadb
     expose:
@@ -66,7 +70,7 @@ volumes:
         name: db-v
         driver: local
         driver_opts:
-            device: '/Users/donghakl/data/db'
+            device: '/Users/donghak/data/db'
             type: 'none'
             o: 'bind'
 
@@ -74,7 +78,7 @@ volumes:
         name: www-v
         driver: local
         driver_opts:
-            device: '/Users/donghakl/data/wordpress'
+            device: '/Users/donghak/data/wordpress'
             type: 'none'
             o: 'bind'
 
