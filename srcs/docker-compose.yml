@@ -55,7 +55,7 @@ volumes:
         name: db-v
         driver: local
         driver_opts:
-            device: '/Users/donghak/data/db'
+            device: '/home/donghakl/data/db'
             type: 'none'
             o: 'bind'
 
@@ -63,7 +63,7 @@ volumes:
         name: www-v
         driver: local
         driver_opts:
-            device: '/Users/donghak/data/wordpress'
+            device: '/home/donghakl/data/wordpress'
             type: 'none'
             o: 'bind'
 
