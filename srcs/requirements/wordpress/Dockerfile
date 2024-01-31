@@ -8,20 +8,16 @@ RUN		apt-get update &&\
 		apt-get -y install php-mysql
 
 RUN		wget https://wordpress.org/latest.tar.gz && \
-		tar -xvf latest.tar.gz
+		tar -xvf latest.tar.gz && \
+		mv /wordpress/* /var/www && \
+		chown -R www-data:www-data /var/www &&\
+		rm -r /wordpress latest.tar.gz
 
 RUN		sed -i 's|^listen = .*|listen = 0.0.0.0:9000|' /etc/php/7.4/fpm/pool.d/www.conf && \
 		service php7.4-fpm restart
 
-COPY ./conf/wp-config.php /
-
 COPY ./tools/entry.sh /tmp/
 
 RUN chmod +x /tmp/entry.sh
-
-# CMD mv /wordpress/* /var/www && \
-# 	chown -R www-data:www-data /var/www &&\
-# 	mv /wp-config.php /var/www/ && \
-# 	rm -r /wordpress latest.tar.gz
 
 ENTRYPOINT [ "sh", "/tmp/entry.sh" ]

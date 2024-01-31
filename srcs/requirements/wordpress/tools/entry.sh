@@ -1,10 +1,6 @@
 #!/bin/bash
 
-mv /wordpress/* /var/www/
-chown -R www-data:www-data /var/www
-mv /wp-config.php /var/www/
-rm -r /wordpress latest.tar.gz
-sleep 13
+sleep 10
 
 wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 chmod +x wp-cli.phar
@@ -13,6 +9,8 @@ mv wp-cli.phar /usr/local/bin/wp
 mkdir -p /run/php
 
 cd /var/www
+
+wp config create --allow-root --dbname=$_DATABASE --dbuser=$_USER --dbpass=$_PASSWORD --dbhost=$_HOST
 
 wp core install --allow-root --path=/var/www \
 								--url=donghakl.42.fr \
@@ -23,8 +21,8 @@ wp core install --allow-root --path=/var/www \
 								--skip-email
 
 wp user create \
-							$USER_ID user42@student.42seoul.kr \
 							--allow-root --path=/var/www \
+							$USER_ID user42@student.42seoul.kr \
 							--role=author \
 							--user_pass=$USER_PASSWORD
 

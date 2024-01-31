@@ -13,11 +13,6 @@ services:
       - db-v:/var/lib/mysql
     env_file:
       - .env
-    # environment:
-    #   - MYSQL_DATABASE=${MYSQL_DATABASE}
-    #   - MYSQL_USER=${MYSQL_USER}
-    #   - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-    #   - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     networks:
       - intra
 
@@ -28,16 +23,6 @@ services:
     container_name: wordpress
     image: wordpress
     restart: always
-    # environment:
-    #   - WORDPRESS_DB_HOST=${DB_HOST}
-    #   - WORDPRESS_DB_USER=${MYSQL_USER}
-    #   - WORDPRESS_DB_PASSWORD=${MYSQL_PASSWORD}
-    #   - WORDPRESS_DB_NAME=${MYSQL_DATABASE}
-    #   - WORDPRESS_TABLE_PREFIX=${WP_TABLE_PREFIX}
-    #   - ADMIN_USER=${MYSQL_USER}
-    #   - ADMIN_PASSWORD=${MYSQL_PASSWORD}
-    #   - USER_ID=${USER_ID}
-    #   - USER_PASSWORD=${USER_PWD}
     env_file:
       - .env
     depends_on:
